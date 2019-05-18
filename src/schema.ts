@@ -1,4 +1,5 @@
 import {GraphQLInt, GraphQLObjectType, GraphQLSchema, GraphQLString} from "graphql";
+import {authors} from "./services/authors";
 
 const AuthorType = new GraphQLObjectType({
     description: "...",
@@ -10,7 +11,7 @@ const AuthorType = new GraphQLObjectType({
     name: "Author",
 });
 
-const graphqlSchema = new GraphQLSchema({
+const graphQLSchema = new GraphQLSchema({
     query: new GraphQLObjectType({
         description: "...",
         fields: () => ({
@@ -20,6 +21,7 @@ const graphqlSchema = new GraphQLSchema({
                         type: GraphQLInt,
                     },
                 },
+                resolve: async (root, args) => await authors(args.id),
                 type: AuthorType,
             },
         }),
@@ -27,4 +29,4 @@ const graphqlSchema = new GraphQLSchema({
     }),
 });
 
-export default graphqlSchema;
+export default graphQLSchema;
